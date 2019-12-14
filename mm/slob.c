@@ -310,6 +310,9 @@ static void *slob_alloc(size_t size, gfp_t gfp, int align, int node)
 		if (sp->units < SLOB_UNITS(size))
 			continue;
 
+		/*lab 3 best fit start*/
+		/*lab 3 best fit end*/
+
 		/* Attempt to alloc */
 		prev = sp->list.prev;
 		b = slob_page_alloc(sp, size, align);
