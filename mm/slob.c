@@ -74,6 +74,8 @@
 
 #include <linux/atomic.h>
 
+#include <linux/linkage.h> /*needed to make syscalls*/
+
 /*
  * slob_block has a field 'units', which indicates size of block if +ve,
  * or offset of next block if -ve (in SLOB_UNITs).
@@ -628,3 +630,29 @@ void __init kmem_cache_init_late(void)
 {
 	slab_state = FULL;
 }
+
+/*Syscalls*/
+
+asmlinkage long sys_get_slob_amt_claimed(void) {
+	long mem = 0;
+	int i = 0;	
+	for(i = 0; i < 100; i++){
+		mem = mem + claimed_memory[i];
+	}
+	
+	mem = mem/100;
+	return mem;
+}
+
+asmlinkage long sys_get_slob_amt_claimed(void) {
+	long mem = 0;
+	int i = 0;
+	
+	for(i = 0; i < 100; i++){
+		mem = mem + free_memory[i];
+	}
+	
+	mem = mem/100;
+	return mem;
+}
+/*Syscalls*/
