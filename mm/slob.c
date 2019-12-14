@@ -90,6 +90,10 @@ typedef s16 slobidx_t;
 typedef s32 slobidx_t;
 #endif
 
+long mem_claimed[100];
+long mem_free[100];
+int index;
+
 struct slob_block {
 	slobidx_t units;
 };
@@ -637,7 +641,7 @@ asmlinkage long sys_get_slob_amt_claimed(void) {
 	long mem = 0;
 	int i = 0;	
 	for(i = 0; i < 100; i++){
-		mem = mem + claimed_memory[i];
+		mem = mem + mem_claimed[i];
 	}
 	
 	mem = mem/100;
@@ -649,7 +653,7 @@ asmlinkage long sys_get_slob_amt_claimed(void) {
 	int i = 0;
 	
 	for(i = 0; i < 100; i++){
-		mem = mem + free_memory[i];
+		mem = mem + mem_free[i];
 	}
 	
 	mem = mem/100;
