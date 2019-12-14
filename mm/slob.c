@@ -660,7 +660,7 @@ asmlinkage long sys_get_slob_amt_claimed(void) {
 	return mem;
 }
 
-asmlinkage long sys_get_slob_amt_claimed(void) {
+asmlinkage long sys_get_slob_amt_free(void) {
 	long mem = 0;
 	int i = 0;
 	
