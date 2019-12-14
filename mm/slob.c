@@ -92,7 +92,7 @@ typedef s32 slobidx_t;
 
 long mem_claimed[100];
 long mem_free[100];
-int index;
+int index = 0;
 
 struct slob_block {
 	slobidx_t units;
@@ -281,6 +281,9 @@ static void *slob_alloc(size_t size, gfp_t gfp, int align, int node)
 	slob_t *b = NULL;
 	unsigned long flags;
 
+	//store partially free pages
+	long partial_page = 0;
+
 	if (size < SLOB_BREAK1)
 		slob_list = &free_slob_small;
 	else if (size < SLOB_BREAK2)
@@ -291,6 +294,10 @@ static void *slob_alloc(size_t size, gfp_t gfp, int align, int node)
 	spin_lock_irqsave(&slob_lock, flags);
 	/* Iterate through each partially free page, try to find room */
 	list_for_each_entry(sp, slob_list, list) {
+
+		//free memory amount stored to variable
+		partial_page = partial_page + sp->units;
+
 #ifdef CONFIG_NUMA
 		/*
 		 * If there's a node specification, search for a partial
@@ -328,6 +335,12 @@ static void *slob_alloc(size_t size, gfp_t gfp, int align, int node)
 		__SetPageSlab(sp);
 
 		spin_lock_irqsave(&slob_lock, flags);
+
+		//calculate free and claimed mem
+		mem_claimed[index] = size;
+		mem_free[index] = (temp_free_memory * SLOB_UNIT) - SLOB_UNIT + 1;
+		index = (index + 1) % 100;
+
 		sp->units = SLOB_UNITS(PAGE_SIZE);
 		sp->freelist = b;
 		INIT_LIST_HEAD(&sp->list);
