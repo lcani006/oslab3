@@ -2,6 +2,7 @@
 //to compile:
 //          gcc -o testslob testslob.c
 #include <stdio.h>
+#include <stdlib.h>
 #include <linux/unistd.h>
 
 #define GET_SLOB_AMT_FREE 544
