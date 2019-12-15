@@ -653,25 +653,22 @@ void __init kmem_cache_init_late(void)
 
 /*Syscalls*/
 asmlinkage long sys_get_slob_amt_claimed(void) {
-	long mem = 0;
+	long total = 0;
 	int i = 0;	
 	for(i = 0; i < 100; i++){
-		mem = mem + mem_claimed[i];
+		total = total + mem_claimed[i];
 	}
 	
-	mem = mem/100;
-	return mem;
+	return total/100;
 }
 
 asmlinkage long sys_get_slob_amt_free(void) {
-	long mem = 0;
-	int i = 0;
-	
+	long total = 0;
+	int i = 0;	
 	for(i = 0; i < 100; i++){
-		mem = mem + mem_free[i];
+		total = total + mem_free[i];
 	}
 	
-	mem = mem/100;
-	return mem;
+	return total/100;
 }
 /*End of Syscalls*/
