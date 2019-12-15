@@ -341,7 +341,7 @@ static void *slob_alloc(size_t size, gfp_t gfp, int align, int node)
 
 		//calculate free and claimed mem
 		mem_claimed[index] = size;
-		mem_free[index] = (temp_free_memory * SLOB_UNIT) - SLOB_UNIT + 1;
+		mem_free[index] = (partial_page * SLOB_UNIT) - SLOB_UNIT + 1;
 		index = (index + 1) % 100;
 
 		sp->units = SLOB_UNITS(PAGE_SIZE);

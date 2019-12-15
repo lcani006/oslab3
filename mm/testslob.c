@@ -1,4 +1,6 @@
 //test program for slob modification
+//to compile:
+//          gcc -o testslob testslob.c
 #include <stdio.h>
 #include <linux/unistd.h>
 
@@ -21,6 +23,10 @@ int main() {
     printf("After massive memory allocation:\n");
     printf("Free: %d (bytes)\n", syscall(GET_SLOB_AMT_FREE));
 	printf("Claimed: %d (bytes)\n", syscall(GET_SLOB_AMT_CLAIMED));
+
+    free(a);
+    free(b);
+    free(c);
 
 
 	return 0;
